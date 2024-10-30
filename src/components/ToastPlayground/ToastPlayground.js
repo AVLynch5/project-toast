@@ -4,6 +4,8 @@ import Button from "../Button";
 
 import ToastShelf from "../ToastShelf";
 
+import { ToastContext } from "../ToastProvider";
+
 import styles from "./ToastPlayground.module.css";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
@@ -13,6 +15,8 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   // create state for variant radiobuttons
   const [variantType, setVariantType] = React.useState(VARIANT_OPTIONS[0]);
+  // get addNewToast from ToastContext
+  const { addNewToast } = React.useContext(ToastContext);
 
   return (
     <div className={styles.wrapper}>
@@ -21,7 +25,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toastArray={toastArray} dismissToast={dismissToast} />
+      <ToastShelf />
 
       {/**
        * Message textarea content here
@@ -30,7 +34,7 @@ function ToastPlayground() {
         className={styles.controlsWrapper}
         onSubmit={(event) => {
           event.preventDefault();
-          // add new toast function here
+          addNewToast(message, variantType);
           setMessage("");
           setVariantType(VARIANT_OPTIONS[0]);
         }}
