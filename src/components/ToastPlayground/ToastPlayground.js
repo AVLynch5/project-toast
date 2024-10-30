@@ -13,14 +13,7 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   // create state for variant radiobuttons
   const [variantType, setVariantType] = React.useState(VARIANT_OPTIONS[0]);
-  // create state to hold toast instances
-  const [toastArray, setToastArray] = React.useState([]);
 
-  // remove toast from toastArray
-  const dismissToast = (toastId) => {
-    const newToastArray = toastArray.filter((toast) => toast.id !== toastId);
-    setToastArray(newToastArray);
-  };
   return (
     <div className={styles.wrapper}>
       <header>
@@ -37,8 +30,7 @@ function ToastPlayground() {
         className={styles.controlsWrapper}
         onSubmit={(event) => {
           event.preventDefault();
-          const newToast = { message, variantType, id: crypto.randomUUID() };
-          setToastArray((currentValue) => [...currentValue, newToast]);
+          // add new toast function here
           setMessage("");
           setVariantType(VARIANT_OPTIONS[0]);
         }}
