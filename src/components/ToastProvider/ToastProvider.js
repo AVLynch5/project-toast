@@ -1,4 +1,5 @@
 import React from "react";
+import useKeyPress from "../../hooks/useKeyPress";
 
 export const ToastContext = React.createContext();
 
@@ -16,18 +17,12 @@ function ToastProvider({ children }) {
     const newToastArray = [...toastArray, newToast];
     setToastArray(newToastArray);
   };
-  // effect to dismiss all toasts 
-  React.useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.code === 'Escape') {
-        setToastArray([]);
-      }
-    }
-    window.addEventListener('keydown', handleKeyPress);
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress)
-    }
+  // memoize callback to avoid rerender
+  const handleKeyPress = React.useCallback(() => {
+    setToastArray([]);
   }, []);
+  // effect to dismiss all toasts
+  useKeyPress(handleKeyPress, "Escape");
   return (
     <ToastContext.Provider value={{ toastArray, dismissToast, addNewToast }}>
       {children}
